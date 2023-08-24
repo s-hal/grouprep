@@ -1,0 +1,17 @@
+{
+	"iss": "https://my-domain.example.com",
+	"exp": 1693056343,
+	"iat": 1692192343,
+	"version": "1.0.0",
+	"cache_ttl": 3600,
+	"entities": [{
+		"entity_id": "https://idp1.example.com",
+		"constituents": [{
+			"organization_id": "SE1122334455",
+			"organization_name": "Example Org One"
+		}, {
+			"organization_id": "SE6677889900",
+			"organization_name": "Example Org Two"
+		}]
+	}]
+}

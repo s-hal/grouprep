@@ -1,0 +1,77 @@
+---
+# JSON Schema for Group Representative Entities
+# Version: 1.0.0
+
+$schema: "http://json-schema.org/draft-07/schema#"
+title: "Group Representative Information Exchange"
+type: object
+additionalProperties: true
+properties:
+  iss:
+    title: "Issuer"
+    type: string
+    format: uri
+    description: "An URI that identifies the issuer of the data."
+    example: "https://my-domain.example.com"
+  exp:
+    title: "Expiration Time"
+    type: integer
+    pattern: "^\\d{10}$"
+    description: "The expiration timestamp of the data in NumerDate format."
+    example: 1693056343
+  iat:
+    title: "Issued Time"
+    type: integer
+    pattern: "^\\d{10}$"
+    description: >
+      "The timestamp indicating when the data was issued in NumericDate format."
+    example: 1692192343
+  version:
+    title: "Version"
+    type: string
+    pattern: "^\\d+\\.\\d+\\.\\d+$"
+    description: "The version of the data, following semantic versioning."
+    example: "1.0.0"
+  cache_ttl:
+    title: "Cache TTL"
+    type: integer
+    description: "The time-to-live (TTL) duration for caching the data in seconds."
+    example: 3600
+  entities:
+    title: "Entities"
+    type: array
+    description: "An array of entities represented by the group representative."
+    items:
+      type: object
+      properties:
+        entity_id:
+          title: "Entity ID"
+          type: string
+          format: uri
+          description: "The unique identifier of the entity."
+          example: "https://idp1.example.com"
+        constituents:
+          title: "Constituents"
+          type: array
+          description: "An array of constituents associated with the entity."
+          items:
+            type: object
+            properties:
+              organization_id:
+                title: "Organization ID"
+                type: string
+                pattern: ^[A-Z]{2}\d{10}$
+                description: >
+                  "The unique identifier of the organization represented by
+                  the Group Representative."
+                example: "SE1122334455"
+              organization_name:
+                title: "Organization Name"
+                type: string
+                description: >
+                  "The name of the organization represented by the Group
+                  Representative."
+                example: "Example Org"
+            required: ["organization_id", "organization_name"]
+      required: ["entity_id", "constituents"]
+required: ["iss", "exp", "iat", "version", "cache_ttl", "entities"]
