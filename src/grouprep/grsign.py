@@ -51,6 +51,7 @@ def main():
     )
     parser.add_argument(
         "--lifetime",
+        type=int,
         dest="lifetime",
         metavar="seconds",
         help="Signature lifetime",
