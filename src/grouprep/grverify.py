@@ -3,6 +3,7 @@ import argparse
 import base64
 import json
 import logging
+import time
 
 import jsonschema
 from cryptography.hazmat.primitives import hashes
@@ -99,6 +100,10 @@ def main():
             print("Schema verification passed")
     else:
         print("Skipping schema check")
+
+    exp_claim = metadata.get("exp")
+    if exp_claim is not None and int(time.time()) >= exp_claim:
+        raise ValueError("The metadata has expired and is no longer valid.")
 
     if args.headers_output:
         with open(args.headers_output, "wt") as output_file:
