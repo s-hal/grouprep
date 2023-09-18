@@ -78,12 +78,12 @@ def main():
 
     metadata_dict = json.loads(metadata_file)
 
-    header_x5t_256 = [
-        json.loads(b64d_enc_dec(signature["protected"])).get("x5t#256", "") for signature in metadata_dict["signatures"] if "protected" in signature
+    header_x5t_S256 = [
+        json.loads(b64d_enc_dec(signature["protected"])).get("x5t#S256", "") for signature in metadata_dict["signatures"] if "protected" in signature
     ]
 
-    if cert_fingerprint not in header_x5t_256:
-        raise ValueError("The x5t#256 value in the metadata does not match the provided certificate.")
+    if cert_fingerprint not in header_x5t_S256:
+        raise ValueError("The x5t#S256 value in the metadata does not match the provided certificate.")
 
     jws = JWS()
     metadata = jws.verify_json(metadata_file, keys=trusted_keys)

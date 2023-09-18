@@ -45,18 +45,18 @@ grverify [OPTIONS]
 
 ### Options for grsign
 
-| Option        | Description                               |
-|---------------|-------------------------------------------|
-| `-h, --help`  | Show help message and exit.               |
-| `--key`       | Private key file (PEM format).            |
-| `--cert`      | Certificate file (PEM format).            |
-| `--x5t_256`   | Certificate fingerprint (x5t#256 format). |
-| `--alg`       | Signature algorithm.                      |
-| `--lifetime`  | Signature lifetime (seconds).             |
-| `--schema`    | JSON schema file (YAML or JSON).          |
-| `--input`     | Metadata file to be signed.               |
-| `--output`    | Signed metadata output file.              |
-| `--debug`     | Enable debugging.                         |
+| Option        | Description                                |
+|---------------|--------------------------------------------|
+| `-h, --help`  | Show help message and exit.                |
+| `--key`       | Private key file (PEM format).             |
+| `--cert`      | Certificate file (PEM format).             |
+| `--x5t_S256`  | Certificate fingerprint (x5t#S256 format). |
+| `--alg`       | Signature algorithm.                       |
+| `--lifetime`  | Signature lifetime (seconds).              |
+| `--schema`    | JSON schema file (YAML or JSON).           |
+| `--input`     | Metadata file to be signed.                |
+| `--output`    | Signed metadata output file.               |
+| `--debug`     | Enable debugging.                          |
 
 ### Options for grverify
 
