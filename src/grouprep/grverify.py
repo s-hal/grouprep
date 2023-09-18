@@ -89,6 +89,13 @@ def main():
     jws = JWS()
     metadata = jws.verify_json(metadata_file, keys=trusted_keys)
 
+    exp_claim = metadata.get("exp")
+    if exp_claim is None:
+        raise ValueError("The 'exp' claim is missing in the metadata.")
+
+    if exp_claim is not None and int(time.time()) >= exp_claim:
+        raise ValueError("The metadata has expired and is no longer valid.")
+
     if args.schema:
         schema = load_file(args.schema)
         v = jsonschema.Draft4Validator(schema)
@@ -100,10 +107,6 @@ def main():
             print("Schema verification passed")
     else:
         print("Skipping schema check")
-
-    exp_claim = metadata.get("exp")
-    if exp_claim is not None and int(time.time()) >= exp_claim:
-        raise ValueError("The metadata has expired and is no longer valid.")
 
     if args.headers_output:
         with open(args.headers_output, "wt") as output_file:
