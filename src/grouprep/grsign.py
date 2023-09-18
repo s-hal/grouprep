@@ -19,7 +19,6 @@ def main():
     """Main function"""
 
     parser = argparse.ArgumentParser(description="Metadata signer")
-    group = parser.add_mutually_exclusive_group()
 
     parser.add_argument(
         "--key",
@@ -28,18 +27,18 @@ def main():
         help="Signer keys (JWK)",
         required=True,
     )
-    group.add_argument(
+    parser.add_argument(
         "--cert",
         dest="cert",
         metavar="filename",
         help="Certificate file (PEM format)",
         required=False,
     )
-    group.add_argument(
+    parser.add_argument(
         "--x5t_S256",
         dest="x5t_S256",
-        metavar="fingerprint",
-        help="Certificate file (PEM format)",
+        metavar="thumbprint",
+        help="x5t#S256 thumbprint",
         required=False,
     )
     parser.add_argument(
@@ -82,8 +81,6 @@ def main():
     parser.add_argument("--debug", dest="debug", action="store_true", help="Enable debugging")
 
     args = parser.parse_args()
-    if not args.cert and not args.x5t_S256:
-        sys.exit("Error: At least one of --cert or --x5t_S256 must be present.")
 
     if args.debug:
         logging.basicConfig(level=logging.DEBUG)
@@ -94,11 +91,14 @@ def main():
         with open(args.cert, "rb") as f:
             cert = load_pem_x509_certificate(f.read())
         sha256_hash = cert.fingerprint(hashes.SHA256())
-        x5t_S256 = base64.urlsafe_b64encode(sha256_hash).rstrip(b"=").decode("utf-8")
+        x5t_S256_cert = base64.urlsafe_b64encode(sha256_hash).rstrip(b"=").decode("utf-8")
 
-        if args.x5t_S256 and x5t_S256 != args.x5t_S256:
-            raise ValueError("The provided x5t_S256 argument does not match the certificate's fingerprint.")
+        if args.x5t_S256 and x5t_S256_cert != args.x5t_S256:
+            sys.exit("Error: The provided x5t_S256 argument does not match the certificate's thumbprint.")
+        x5t_S256 = x5t_S256_cert
     else:
+        if not args.x5t_S256:
+            sys.exit("Error: At least one of --cert or --x5t_S256 must be present.")
         x5t_S256 = args.x5t_S256
 
     signer_keys = [keyconv.pem2jwk(filename=args.signer, kty="EC", private=True, passphrase="")]
