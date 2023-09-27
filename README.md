@@ -4,7 +4,7 @@
 
 ## Description
 
-This example code demonstrates command-line tools that enable you to sign and verify JSON metadata using private keys and certificates. 
+This example code demonstrates command-line tools that enable you to sign and verify JSON metadata using private keys and certificates.
 
 ## Table of Contents
 
@@ -31,7 +31,7 @@ poetry install
 3. Create sample keys
 ```shell
 openssl ecparam -genkey -name prime256v1 -noout -out sample_data/ec-private-key.pem
-openssl req -new -x509 -key ec-private-key.pem -out sample_data/ec-cert.pem -outform pem -days 5000 -subj '/CN=my-org-metadata'
+openssl req -new -x509 -key ec-private-key.pem -out sample_data/ec-cert.pem -outform pem -days 36500 -subj '/CN=my-org-metadata'
 ```
 
 ## Usage
